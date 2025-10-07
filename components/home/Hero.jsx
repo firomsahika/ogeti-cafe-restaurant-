@@ -97,8 +97,8 @@ export default function Hero() {
           <Image
             src={selected.image}
             alt={selected.name}
-            width={400}
-            height={400}
+            width={450}
+            height={450}
             className="object-cover w-full h-full"
           />
         </motion.div>

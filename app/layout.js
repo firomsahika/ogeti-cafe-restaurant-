@@ -2,9 +2,9 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
 
-import { BackgroundAnimation } from "@/components/BackgroundAnimation";
+import { BackgroundAnimation } from "../components/BackgroundAnimation";
 import Header from "../components/Header"
-import Footer from "@/components/Footer";
+import Footer from "../components/Footer";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -16,9 +16,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={poppins.variable}> 
       <body className="font-poppins">
-         <div className="fixed inset-0 -z-10">
+         {/* <div className="fixed inset-0 -z-10">
             <BackgroundAnimation />
-          </div>
+          </div> */}
       
           <div className="relative z-10">
               <Header />
