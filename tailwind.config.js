@@ -9,7 +9,7 @@ module.exports = {
         primary: "red-700",
       },
       fontFamily: {
-        poppins: ["var(--font-poppins)", "sans-serif"],
+        raleway: ["var(--font-raleway)", "sans-serif"],
       },
     },
   },

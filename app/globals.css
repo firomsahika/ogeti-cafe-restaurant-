@@ -37,6 +37,6 @@ body {
 @layer base {
   body {
     /* Apply the custom font utility class */
-    @apply font-poppins; 
+    @apply font-raleway; 
   }
 }

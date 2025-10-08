@@ -8,9 +8,9 @@ const Footer = () => {
   return (
     <footer className="bg-red-700 text-white pt-12 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8  ">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* About Section */}
-          <div>
+          <div className="flex flex-col">
             <h3 className="text-xl font-bold mb-4">Ogeti Cafe & Restaurant</h3>
             <p className="text-sm max-w-xs text-gray-100">
               Bringing the taste of tradition with the best quality foods and fast delivery. Experience dining like never before.
@@ -18,7 +18,7 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div>
+          <div className="flex flex-col">
             <h3 className="text-xl font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li><Link href="/" className="hover:underline">Home</Link></li>
@@ -30,7 +30,7 @@ const Footer = () => {
           </div>
 
           {/* Contact Info */}
-          <div>
+          <div className="flex flex-col">
             <h3 className="text-xl font-bold mb-4">Contact Us</h3>
             <p className="text-sm">123 Ogeti Street, Addis Ababa, Ethiopia</p>
             <p className="text-sm">Phone: +251 911 123 456</p>
@@ -47,11 +47,15 @@ const Footer = () => {
         </div>
 
         {/* Footer Bottom */}
-        <div className="mt-8 border-t border-gray-400 pt-6 flex flex-col md:flex-row items-center justify-between w-full">
+        <div className="mt-8 border-t border-gray-400 pt-6 flex flex-col md:flex-row items-center justify-between">
           <p className="text-sm text-gray-200 text-center md:text-left">
             © 2025 Ogeti Cafe & Restaurant. All rights reserved.
           </p>
-          
+
+          <div className="flex gap-6 mt-4 md:mt-0">
+            <Link href="#" className="hover:text-amber-300">Privacy Policy</Link>
+            <Link href="#" className="hover:text-amber-300">Terms of Service</Link>
+          </div>
         </div>
       </div>
     </footer>

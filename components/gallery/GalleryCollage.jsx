@@ -30,7 +30,7 @@ const images = [
 
 export default function GalleryCollage() {
   return (
-    <section className=" py-20 px-6 md:px-12">
+    <section className=" py-20">
       <div className="text-center mb-12">
         <h2 className="text-4xl font-bold text-red-700">Our Gallery</h2>
         <p className="text-gray-500 mt-3 max-w-2xl mx-auto">
@@ -39,7 +39,7 @@ export default function GalleryCollage() {
         </p>
       </div>
 
-      <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+      <div className="columns-2 sm:columns-2 md:columns-3 lg:columns-4 gap-8 space-y-6">
         {images.map((img, i) => (
           <motion.div
             key={i}

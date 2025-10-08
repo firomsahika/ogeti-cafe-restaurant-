@@ -6,11 +6,11 @@ export const BackgroundAnimation = () => {
   return (
     <div className="absolute inset-0 overflow-hidden">
       {/* Subtle base gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#fff5f5] via-[#ffe4e6] to-[#fce7f3] opacity-80" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#fff5f5] via-[#ffe4e6] to-[#fce7f3] opacity-60" />
 
       {/* Animated gradient glow blobs */}
       <motion.div
-        className="absolute top-[-150px] left-[-100px] w-[400px] h-[400px] rounded-full bg-gradient-to-br from-[#e11d48] via-[#f87171] to-transparent blur-[120px] opacity-50"
+        className="absolute top-[-150px] left-[-100px] w-[400px] h-[400px] rounded-full bg-gradient-to-br from-[#dd4163] via-[#f87171] to-transparent blur-[120px] opacity-40"
         animate={{
           x: [0, 60, 0],
           y: [0, 40, 0],

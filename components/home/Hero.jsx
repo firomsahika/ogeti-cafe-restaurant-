@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import { motion, useAnimation } from "framer-motion";
+import { motion, useMotionValue, useTransform, useAnimationFrame } from "framer-motion";
+import Typewriter from "typewriter-effect"; // 👈 make sure to in
 
 import buna from "../../public/buna.jpg";
 import qocho from "../../public/qocho.jpg";
@@ -17,35 +18,21 @@ const foods = [
 ];
 
 export default function Hero() {
-  const [selected, setSelected] = useState(foods[0]);
-  const controls = useAnimation();
+  const [activeIndex, setActiveIndex] = useState(0);
+  const rotation = useMotionValue(0);
 
-  useEffect(() => {
-    controls.start({
-      rotate: 360,
-      transition: {
-        repeat: Infinity,
-        ease: "linear",
-        duration: 40,
-      },
-    });
-  }, [controls]);
-
-  const handleHoverStart = () => controls.stop();
-  const handleHoverEnd = () =>
-    controls.start({
-      rotate: 360,
-      transition: {
-        repeat: Infinity,
-        ease: "linear",
-        duration: 40,
-      },
-    });
+  // Smooth infinite rotation animation
+  useAnimationFrame((t, delta) => {
+    const newAngle = rotation.get() + delta * 0.02; // rotation speed
+    rotation.set(newAngle % 360);
+    const index = Math.round((newAngle / (360 / foods.length))) % foods.length;
+    setActiveIndex((index + foods.length) % foods.length);
+  });
 
   return (
-    <section className="min-h-screen flex flex-col md:flex-row items-center justify-between  relative  overflow-hidden">
+    <section className="min-h-screen flex flex-col md:flex-row items-center justify-between px-8 md:px-20 relative overflow-hidden bg-gradient-to-br from-[#fff5f2] via-[#ffeae2] to-[#fff]">
       {/* Left Section */}
-      <div className="md:w-1/2 flex flex-col items-start gap-6 mt-10 md:mt-0">
+      <div className="md:w-1/2 flex flex-col items-start gap-6 mt-20 md:mt-0">
         <motion.button
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -59,10 +46,20 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight"
+          className="text-4xl md:text-5xl font-bold text-gray-900 leading-snug"
         >
-          Discover the{" "}
-          <span className="text-red-700">Art of Flavorful Mastery</span>
+          <span className="text-red-700">Discover the </span>
+          <span className="text-gray-900">
+            <Typewriter
+              options={{
+                strings: ["Art of Flavorful Mastery", "Taste of Oromo Culture", "Magic in Every Bite"],
+                autoStart: true,
+                loop: true,
+                delay: 60,
+                deleteSpeed: 30,
+              }}
+            />
+          </span>
         </motion.h1>
 
         <motion.p
@@ -71,83 +68,67 @@ export default function Hero() {
           transition={{ duration: 1 }}
           className="text-gray-700 text-lg max-w-md"
         >
-          Experience the authentic taste of Oromo culture — freshly prepared
-          dishes, traditional drinks, and the warmth of our hospitality in every
-          bite.
+          Experience authentic Oromo cuisine — freshly prepared dishes, warm
+          hospitality, and a touch of tradition in every serving.
         </motion.p>
 
         <motion.button
           whileHover={{ scale: 1.05 }}
           className="bg-red-700 text-white px-6 py-3 rounded-full shadow-lg hover:bg-red-800 transition"
         >
-          See Menu
+          Explore Our Menu
         </motion.button>
       </div>
 
-      {/* Right Section */}
-      <div className="relative md:w-1/2 mt-12 md:mt-0 flex justify-center items-center">
-        {/* Main Food Image */}
+      {/* Right Section — 3D Rotating Food Carousel */}
+      <div className="md:w-1/2 flex justify-center items-center relative mt-16 md:mt-0">
         <motion.div
-          key={selected.image}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
-          className="rounded-full overflow-hidden shadow-2xl w-72 h-72 md:w-80 md:h-80 border-[6px] border-white bg-white"
-        >
-          <Image
-            src={selected.image}
-            alt={selected.name}
-            width={450}
-            height={450}
-            className="object-cover w-full h-full"
-          />
-        </motion.div>
-
-        {/* Circular Buttons */}
-        <motion.div
-        animate={controls}
-        style={{ position: "absolute", width: "100%", height: "100%" }}
-        className="flex items-center justify-center"
-      >
-      {foods.map((food, index) => {
-      const angle = (index / foods.length) * 360; // degrees
-      const radius = 200;
-
-      return (
-        <div
-          key={food.name}
+          className="relative flex items-center justify-center"
           style={{
-            position: "absolute",
-            transform: `rotate(${angle}deg) translate(${radius}px) rotate(${-angle}deg)`,
-            transformOrigin: "center center",
+            transformStyle: "preserve-3d",
+            rotateY: useTransform(rotation, (r) => `${r}deg`),
           }}
         >
-          <motion.button
-            onClick={() => setSelected(food)}
-            onHoverStart={handleHoverStart}
-            onHoverEnd={handleHoverEnd}
-            whileHover={{ scale: 1.15 }}
-            className={`text-sm text-slate-600 px-4 py-2 rounded-full transition shadow-lg font-medium ${
-              selected.name === food.name
-                ? "bg-red-700 text-white"
-                  : " bg-white text-gray-800"
-            }`}
-          >
-            {food.name}
-          </motion.button>
-        </div>
-      );
-  })}
-</motion.div>
-      </div>
+          {foods.map((food, index) => {
+            const angle = (360 / foods.length) * index;
+            return (
+              <motion.div
+                key={food.name}
+                style={{
+                  transform: `rotateY(${angle}deg) translateZ(300px)`,
+                  position: "absolute",
+                }}
+              >
+                <div className="w-52 h-52 rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-white">
+                  <Image
+                    src={food.image}
+                    alt={food.name}
+                    width={250}
+                    height={250}
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
 
-      {/* Background animation bubbles */}
-      {/* <motion.div
-        className="absolute w-96 h-96 bg-red-200 rounded-full opacity-30 -top-20 -left-20 animate-pulse"
-      />
-      <motion.div
-        className="absolute w-72 h-72 bg-yellow-200 rounded-full opacity-20 -bottom-20 -right-10 animate-pulse"
-      /> */}
+        {/* Food Info Card (Dynamic Text) */}
+        <motion.div
+          key={activeIndex}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="absolute bottom-8 bg-white bg-opacity-90 backdrop-blur-sm p-4 px-6 rounded-2xl shadow-lg text-center"
+        >
+          <h3 className="text-2xl font-bold text-gray-800">
+            {foods[activeIndex].name}
+          </h3>
+          <p className="text-sm text-gray-600">
+            Delicious, traditional, and made with love.
+          </p>
+        </motion.div>
+      </div>
     </section>
   );
 }
